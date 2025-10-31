@@ -1,3 +1,3 @@
 srpm:
-	./getsource.sh
+	.copr/getsource.sh
 	rpmbuild -bs input-remapper-git.spec --define "_srcrpmdir $(outdir)"
