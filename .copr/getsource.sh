@@ -5,8 +5,6 @@ repodir="$(realpath "$(dirname "${BASH_SOURCE[0]}")/../")"
 PkgName=input-remapper-git
 CoreRepo=https://github.com/sezanzeb/input-remapper
 TarPath=archive/refs/heads/main.tar.gz
-VerDate="$(date --utc +%y.%m.%d.%-k%M%S)"
-Release=1
 sourcedir=$(rpmbuild --eval='%_sourcedir')
 source0="${sourcedir}/input-remapper-main.tar.gz"
 
@@ -15,9 +13,3 @@ echo "Downloading latest input-remapper commit from git repository ${CoreRepo} t
 curl -L ${CoreRepo}/$TarPath -o ${source0}
 echo "Copying README.Fedora to ${sourcedir}"
 cp ${repodir}/README.Fedora ${sourcedir}/README.Fedora
-
-cat > "${sourcedir}/_version" << EOF
-${PkgName}
-${VerDate}
-${Release}
-EOF

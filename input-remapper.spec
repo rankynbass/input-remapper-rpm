@@ -1,18 +1,6 @@
-# Version File Source
-# I've put it here because I need it declared before it's used in some definitions.
-Source2:        _version
-
-# DEFINITIONS
-# Repo tags are now pulled from the _version file, so it only has to be changed in one place.
-# This is why sources were declared above.
-%define pkgname %(awk 'NR==1 {print; exit}' < %{SOURCE2} )
-%define pkgversion %(awk 'NR==2 {print; exit}' < %{SOURCE2} )
-%define pkgrelease %(awk 'NR==3 {print; exit}' < %{SOURCE2} )
-%define reponame input-remapper
-
-Name:           %{pkgname}
-Version:        %{pkgversion}
-Release:        %{pkgrelease}%{?dist}
+Name:           input-remapper
+Version:        2.1.99
+Release:        1%{?dist}
 Summary:        An easy to use tool to change the behaviour of your input devices (from latest git commit)
 License:        GPL-3.0-or-later
 URL:            https://github.com/sezanzeb/input-remapper
@@ -59,8 +47,6 @@ Requires:       gtk3
 BuildRequires:  gtksourceview4
 Requires:       gtksourceview4
 
-Conflicts:      input-remapper
-
 %generate_buildrequires
 %pyproject_buildrequires -r
 
@@ -75,7 +61,7 @@ the output of physical devices to that of virtual ones.
 
 
 %prep
-%autosetup -p1 -n %{reponame}-main
+%autosetup -p1 -n %{name}-main
 cp %{SOURCE1} ./
 #Fix rpmlint errors
 find inputremapper/injection/macros/ -iname "*.py" -type f -print0 | xargs -0 sed -i -e 's+\s*#\s*!/usr/bin/env python3++'
@@ -97,27 +83,27 @@ mv %{buildroot}%{python3_sitelib}/usr/share %{buildroot}/usr/share
 mkdir -p %{buildroot}/usr/share/dbus-1/system.d/
 
 # clean up duplicate files
-rm %{buildroot}%{_datadir}/%{reponame}/inputremapper.Control.conf
-rm %{buildroot}%{_datadir}/%{reponame}/io.github.sezanzeb.input_remapper.metainfo.xml
-rm %{buildroot}%{_datadir}/%{reponame}/%{reponame}-gtk.desktop
-rm %{buildroot}%{_datadir}/%{reponame}/%{reponame}.policy
-rm %{buildroot}%{_datadir}/%{reponame}/%{reponame}.svg
+rm %{buildroot}%{_datadir}/%{name}/inputremapper.Control.conf
+rm %{buildroot}%{_datadir}/%{name}/io.github.sezanzeb.input_remapper.metainfo.xml
+rm %{buildroot}%{_datadir}/%{name}/%{name}-gtk.desktop
+rm %{buildroot}%{_datadir}/%{name}/%{name}.policy
+rm %{buildroot}%{_datadir}/%{name}/%{name}.svg
 
 
 %post -n %{name}
-%systemd_post %{reponame}.service
+%systemd_post %{name}.service
 
 
 %preun -n %{name}
-%systemd_preun %{reponame}.service
+%systemd_preun %{name}.service
 
 
 %postun -n %{name}
-%systemd_postun_with_restart %{reponame}.service
+%systemd_postun_with_restart %{name}.service
 
 
 %check
-desktop-file-validate %{buildroot}/%{_datadir}/applications/%{reponame}-gtk.desktop
+desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}-gtk.desktop
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
@@ -130,7 +116,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 # Note that setting TMPDIR="${PWD}/test_tmp" tends to form paths that are too
 # long for UNIX domain sockets, causing test failures, so we just use the
 # default temporary directory.
-export DATA_DIR='%{buildroot}%{_datadir}/%{reponame}'
+export DATA_DIR='%{buildroot}%{_datadir}/%{name}'
 
 # Make sure everything is at least importable:
 # exclude the module from the test suite (v2.1.1) 
@@ -200,32 +186,32 @@ export DATA_DIR='%{buildroot}%{_datadir}/%{reponame}'
 %doc README.md README.Fedora
 %license LICENSE
 %{_datadir}/dbus-1/system.d/inputremapper.Control.conf
-%{_sysconfdir}/xdg/autostart/%{reponame}-autoload.desktop
-%{_bindir}/%{reponame}*
-%{_unitdir}/%{reponame}.service
-%{_udevrulesdir}/99-%{reponame}.rules
-%{_datadir}/%{reponame}
-%{_datadir}/icons/hicolor/scalable/apps/%{reponame}.svg
+%{_sysconfdir}/xdg/autostart/%{name}-autoload.desktop
+%{_bindir}/%{name}*
+%{_unitdir}/%{name}.service
+%{_udevrulesdir}/99-%{name}.rules
+%{_datadir}/%{name}
+%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 # deal with non-standard location of localization files
-%exclude %dir %{_datadir}/%{reponame}/lang
-%lang(fr) %{_datadir}/%{reponame}/lang/fr
-%lang(fr) %{_datadir}/%{reponame}/lang/fr_FR
-%lang(it) %{_datadir}/%{reponame}/lang/it
-%lang(it) %{_datadir}/%{reponame}/lang/it_IT
-%lang(pt) %{_datadir}/%{reponame}/lang/pt
-%lang(pt) %{_datadir}/%{reponame}/lang/pt_BR
-%lang(ru) %{_datadir}/%{reponame}/lang/ru
-%lang(ru) %{_datadir}/%{reponame}/lang/ru_RU
-%lang(sk) %{_datadir}/%{reponame}/lang/sk
-%lang(sk) %{_datadir}/%{reponame}/lang/sk_SK
-%lang(uk) %{_datadir}/%{reponame}/lang/uk
-%lang(uk) %{_datadir}/%{reponame}/lang/uk_UA
-%lang(zh) %{_datadir}/%{reponame}/lang/zh
-%lang(zh) %{_datadir}/%{reponame}/lang/zh_CN
+%exclude %dir %{_datadir}/%{name}/lang
+%lang(fr) %{_datadir}/%{name}/lang/fr
+%lang(fr) %{_datadir}/%{name}/lang/fr_FR
+%lang(it) %{_datadir}/%{name}/lang/it
+%lang(it) %{_datadir}/%{name}/lang/it_IT
+%lang(pt) %{_datadir}/%{name}/lang/pt
+%lang(pt) %{_datadir}/%{name}/lang/pt_BR
+%lang(ru) %{_datadir}/%{name}/lang/ru
+%lang(ru) %{_datadir}/%{name}/lang/ru_RU
+%lang(sk) %{_datadir}/%{name}/lang/sk
+%lang(sk) %{_datadir}/%{name}/lang/sk_SK
+%lang(uk) %{_datadir}/%{name}/lang/uk
+%lang(uk) %{_datadir}/%{name}/lang/uk_UA
+%lang(zh) %{_datadir}/%{name}/lang/zh
+%lang(zh) %{_datadir}/%{name}/lang/zh_CN
 
-%{_datadir}/applications/%{reponame}-gtk.desktop
-%{_datadir}/polkit-1/actions/%{reponame}.policy
+%{_datadir}/applications/%{name}-gtk.desktop
+%{_datadir}/polkit-1/actions/%{name}.policy
 %{_metainfodir}/*.metainfo.xml
 
 
