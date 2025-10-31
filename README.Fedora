@@ -1,3 +1,5 @@
+## Input Remapper can be found [here](https://github.com/sezanzeb/input-remapper)
+
 Once input-remapper has been installed, it needs to be configured and its 
 service unit enabled and started:
 
