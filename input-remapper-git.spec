@@ -13,6 +13,7 @@ Source2:        _version
 Name:           %{pkgname}
 Version:        %{pkgversion}
 Release:        %{pkgrelease}%{?dist}
+Epoch:          1
 Summary:        An easy to use tool to change the behaviour of your input devices (from latest git commit)
 License:        GPL-3.0-or-later
 URL:            https://github.com/sezanzeb/input-remapper
