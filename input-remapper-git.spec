@@ -59,7 +59,7 @@ Requires:       gtk3
 BuildRequires:  gtksourceview4
 Requires:       gtksourceview4
 
-Conflicts:      input-remapper
+Provides:       input-remapper
 
 %generate_buildrequires
 %pyproject_buildrequires -r
