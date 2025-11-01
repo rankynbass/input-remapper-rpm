@@ -3,7 +3,7 @@
 PkgName=input-remapper-git
 CoreRepo=https://github.com/sezanzeb/input-remapper
 TarPath=archive/refs/heads/main.tar.gz
-LatestTag=2.1.1
+LatestTag=2.2.0
 Release=1
 
 # Make sure the script can run properly no matter where it's called from
